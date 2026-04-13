@@ -25,4 +25,5 @@ dist-ssr
 
 # Project custom exclusions
 development/
-.env
+developments/
+!developments/*.md

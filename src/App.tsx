@@ -2,14 +2,17 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { DeepFocusProvider } from "@/hooks/useDeepFocus";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import AdminRoute from "@/components/AdminRoute";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
+import { isPricingEnabled } from "@/lib/featureFlags";
 import Index from "./pages/Index";
 import About from "./pages/About";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
@@ -17,8 +20,6 @@ import ProfileSetup from "./pages/onboarding/ProfileSetup";
 import LearningGoals from "./pages/onboarding/LearningGoals";
 import AppLayout from "./components/layout/AppLayout";
 import Dashboard from "./pages/Dashboard";
-import LessonList from "./pages/lessons/LessonList";
-import LessonViewer from "./pages/lessons/LessonViewer";
 import DoubtInput from "./pages/doubts/DoubtInput";
 import AISolution from "./pages/doubts/AISolution";
 import DoubtHistory from "./pages/doubts/DoubtHistory";
@@ -26,7 +27,7 @@ import DoubtSession from "./pages/doubts/DoubtSession";
 import TopicSelection from "./pages/quiz/TopicSelection";
 import QuizPage from "./pages/quiz/QuizPage";
 import QuizResults from "./pages/quiz/QuizResults";
-import StudyTimerPage from "./pages/timer/StudyTimer";   // ← was missing from routes
+import StudyTimerPage from "./pages/timer/StudyTimer";
 import SessionSummary from "./pages/timer/SessionSummary";
 import MaterialUpload from "./pages/materials/MaterialUpload";
 import AILearning from "./pages/materials/AILearning";
@@ -37,11 +38,12 @@ import Friends from "./pages/social/Friends";
 import Achievements from "./pages/social/Achievements";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import AdminPanel from "./pages/admin/AdminPanel";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 2,   // 2 minutes
+      staleTime: 1000 * 60 * 2,
       retry: 1,
     },
   },
@@ -59,6 +61,10 @@ const App = () => (
               {/* Public */}
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />
+              <Route
+                path="/pricing"
+                element={isPricingEnabled ? <Pricing /> : <Navigate to="/" replace />}
+              />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
 
@@ -72,11 +78,15 @@ const App = () => (
                 element={<ProtectedRoute><LearningGoals /></ProtectedRoute>}
               />
 
+              {/* Admin Panel — only for admin & super_admin */}
+              <Route
+                path="/admin"
+                element={<AdminRoute><AdminPanel /></AdminRoute>}
+              />
+
               {/* Protected: App screens with sidebar layout */}
               <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
                 <Route path="/dashboard" element={<ErrorBoundary><Dashboard /></ErrorBoundary>} />
-                <Route path="/lessons" element={<ErrorBoundary><LessonList /></ErrorBoundary>} />
-                <Route path="/lessons/:id" element={<ErrorBoundary><LessonViewer /></ErrorBoundary>} />
                 <Route path="/doubts" element={<ErrorBoundary><DoubtInput /></ErrorBoundary>} />
                 <Route path="/doubts/solution" element={<ErrorBoundary><AISolution /></ErrorBoundary>} />
                 <Route path="/doubts/history" element={<ErrorBoundary><DoubtHistory /></ErrorBoundary>} />
@@ -84,9 +94,8 @@ const App = () => (
                 <Route path="/quiz" element={<ErrorBoundary><TopicSelection /></ErrorBoundary>} />
                 <Route path="/quiz/:id" element={<ErrorBoundary><QuizPage /></ErrorBoundary>} />
                 <Route path="/quiz/:id/results" element={<ErrorBoundary><QuizResults /></ErrorBoundary>} />
-                {/* ✅ /timer route was missing — now added */}
-                <Route path="/timer" element={<ErrorBoundary><StudyTimerPage /></ErrorBoundary>} />
-                <Route path="/timer/summary" element={<ErrorBoundary><SessionSummary /></ErrorBoundary>} />
+                <Route path="/timer" element={<Navigate to="/dashboard" replace />} />
+                <Route path="/timer/summary" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/materials" element={<ErrorBoundary><MaterialUpload /></ErrorBoundary>} />
                 <Route path="/materials/learn/:id" element={<ErrorBoundary><AILearning /></ErrorBoundary>} />
                 <Route path="/materials/tutor" element={<ErrorBoundary><AITutor /></ErrorBoundary>} />
