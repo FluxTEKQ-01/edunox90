@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Play, Pause, Square, Timer, Zap, Flame } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { db } from "@/lib/firebase";
-// import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { saveStudySession } from "@/lib/studySession";
+import { toast } from "sonner";
 
 const StudyTimerPage = () => {
   const navigate = useNavigate();
@@ -53,7 +53,6 @@ const StudyTimerPage = () => {
 
   const xpEarned = Math.floor(seconds / 60) * 5;
 
-  // ✅ FIX: Uses shared saveStudySession utility — no more duplicated streak logic
   const handleStop = useCallback(async () => {
     setRunning(false);
     if (interval.current) clearInterval(interval.current);
@@ -61,20 +60,27 @@ const StudyTimerPage = () => {
     const dur = secondsRef.current;
 
     if (!user || dur < 10) {
-      navigate("/timer/summary", { state: { duration: dur, xp: 0, streak: streak?.current_streak ?? 0 } });
+      toast.info("Session too short to earn XP");
+      navigate("/dashboard");
       return;
     }
 
     setSaving(true);
-    const { xp, newStreak } = await saveStudySession(
-      user.id,
-      startedAt.current,
-      dur,
-      streak ?? null
-    );
-    setSaving(false);
-
-    navigate("/timer/summary", { state: { duration: dur, xp, streak: newStreak } });
+    try {
+      const { xp } = await saveStudySession(
+        user.id,
+        startedAt.current,
+        dur,
+        streak ?? null
+      );
+      toast.success(`Session complete! You earned ${xp} XP.`);
+    } catch (error) {
+      console.error("Failed to save study session:", error);
+      toast.error("Failed to save study session");
+    } finally {
+      setSaving(false);
+      navigate("/dashboard");
+    }
   }, [user, streak, navigate]);
 
   const handleStart = () => {

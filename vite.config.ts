@@ -25,7 +25,4 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  css: {
-    postcss: path.resolve(__dirname, ".."),
-  },
 }));

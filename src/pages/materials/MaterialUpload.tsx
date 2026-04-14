@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Upload, FileText, X, ArrowRight, CheckCircle2, Loader2, Search, FolderOpen, Sparkles, HardDrive, LayoutGrid, List, Plus } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { db } from "@/lib/firebase";
-// import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
