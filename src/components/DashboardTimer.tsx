@@ -3,7 +3,7 @@ import { Timer, Play, Square } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { db } from "@/lib/firebase";
-// import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { saveStudySession } from "@/lib/studySession";
 import { toast } from "sonner";
 

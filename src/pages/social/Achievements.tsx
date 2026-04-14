@@ -1,7 +1,7 @@
 import { Trophy, Star, Flame, Target, Zap, BookOpen, Medal, Award, Clock, MessageCircleQuestion } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { db } from "@/lib/firebase";
-// import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect } from "react";

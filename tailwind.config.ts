@@ -3,8 +3,8 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: [
-    "./frontend/src/**/*.{ts,tsx}",
-    "./frontend/index.html",
+    "./src/**/*.{ts,tsx}",
+    "./index.html",
   ],
   prefix: "",
   theme: {
@@ -14,21 +14,12 @@ export default {
       screens: { "2xl": "1400px" },
     },
     extend: {
-      /* ── EduOnx Typography ────────────────────────────────────
-         Primary UI: Inter  |  Display/Hero: Sora  |  Reading: IBM Plex Serif
-      ────────────────────────────────────────────────────────── */
       fontFamily: {
         sans: ['"Inter"', 'system-ui', 'sans-serif'],
         display: ['"Sora"', '"Inter"', 'sans-serif'],
         serif: ['"IBM Plex Serif"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
       },
-
-      /* ── EduOnx Color System ──────────────────────────────────
-         Background → #F3F4F6  Surface → #FFFFFF
-         Primary (Azure) → #1D4ED8  CTA (Amber) → #F97316
-         Success (Green) → #10B981  Error (Red) → #EF4444
-      ────────────────────────────────────────────────────────── */
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -40,13 +31,11 @@ export default {
           foreground: "hsl(var(--primary-foreground))",
           light: "hsl(var(--primary-light))",
         },
-        /* Amber CTA — use ONLY for main action buttons (max 1-2 per screen) */
         cta: {
           DEFAULT: "hsl(var(--cta))",
           foreground: "hsl(var(--cta-foreground))",
           light: "hsl(var(--cta-light))",
         },
-        /* Focus Green — correct answers, progress, completion */
         success: {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
@@ -76,7 +65,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        /* Legacy aliases for backward compatibility */
         deep: {
           DEFAULT: "hsl(var(--deep))",
           foreground: "hsl(var(--deep-foreground))",
@@ -96,22 +84,17 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
-
-      /* ── 8px Spacing Grid ──────────────────────────────────── */
       spacing: {
         "4.5": "1.125rem",
         "13": "3.25rem",
         "15": "3.75rem",
         "18": "4.5rem",
       },
-
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-
-      /* ── Typography Scale ──────────────────────────────────── */
       fontSize: {
         "micro": ["0.75rem", { lineHeight: "1rem", letterSpacing: "0.01em" }],
         "body-sm": ["0.875rem", { lineHeight: "1.25rem" }],
@@ -121,7 +104,6 @@ export default {
         "heading-1": ["2rem", { lineHeight: "2.5rem", letterSpacing: "-0.02em" }],
         "display": ["3rem", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
       },
-
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

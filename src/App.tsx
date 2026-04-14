@@ -28,7 +28,6 @@ import TopicSelection from "./pages/quiz/TopicSelection";
 import QuizPage from "./pages/quiz/QuizPage";
 import QuizResults from "./pages/quiz/QuizResults";
 import StudyTimerPage from "./pages/timer/StudyTimer";
-import SessionSummary from "./pages/timer/SessionSummary";
 import MaterialUpload from "./pages/materials/MaterialUpload";
 import AILearning from "./pages/materials/AILearning";
 import AITutor from "./pages/materials/AITutor";
@@ -39,6 +38,8 @@ import Achievements from "./pages/social/Achievements";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import AdminPanel from "./pages/admin/AdminPanel";
+import LessonList from "./pages/lessons/LessonList";
+import LessonViewer from "./pages/lessons/LessonViewer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -94,8 +95,9 @@ const App = () => (
                 <Route path="/quiz" element={<ErrorBoundary><TopicSelection /></ErrorBoundary>} />
                 <Route path="/quiz/:id" element={<ErrorBoundary><QuizPage /></ErrorBoundary>} />
                 <Route path="/quiz/:id/results" element={<ErrorBoundary><QuizResults /></ErrorBoundary>} />
+                <Route path="/lessons" element={<ErrorBoundary><LessonList /></ErrorBoundary>} />
+                <Route path="/lessons/:id" element={<ErrorBoundary><LessonViewer /></ErrorBoundary>} />
                 <Route path="/timer" element={<Navigate to="/dashboard" replace />} />
-                <Route path="/timer/summary" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/materials" element={<ErrorBoundary><MaterialUpload /></ErrorBoundary>} />
                 <Route path="/materials/learn/:id" element={<ErrorBoundary><AILearning /></ErrorBoundary>} />
                 <Route path="/materials/tutor" element={<ErrorBoundary><AITutor /></ErrorBoundary>} />
@@ -105,6 +107,7 @@ const App = () => (
                 <Route path="/achievements" element={<ErrorBoundary><Achievements /></ErrorBoundary>} />
                 <Route path="/profile" element={<ErrorBoundary><Profile /></ErrorBoundary>} />
                 <Route path="/settings" element={<ErrorBoundary><Settings /></ErrorBoundary>} />
+                <Route path="/admin-panel" element={<ErrorBoundary><AdminPanel /></ErrorBoundary>} />
               </Route>
 
               <Route path="*" element={<NotFound />} />

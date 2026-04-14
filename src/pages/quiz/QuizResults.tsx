@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Trophy, RotateCcw, ArrowRight, Target, TrendingUp, Zap } from "lucide-react";
 import { db } from "@/lib/firebase";
-// import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
 const QuizResults = () => {
